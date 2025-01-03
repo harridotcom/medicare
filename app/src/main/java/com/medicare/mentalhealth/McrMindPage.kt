@@ -14,7 +14,7 @@ import com.medicare.other.McrTopAppBar2
 fun McrMindPage(modifier: Modifier = Modifier) {
     Scaffold (
         topBar = { McrTopAppBar2() },
-        bottomBar = { McrNavigationBars() }
+        bottomBar = { McrNavigationBars() },
     ){paddingValues ->
         Text(text = "Mind Page", modifier = modifier.padding(paddingValues))
     }

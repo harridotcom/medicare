@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.medicare.home.McrHomePage
 import com.medicare.ui.theme.MediCareTheme
+import com.medicare.womenhealth.McrCarePage
+import com.medicare.womenhealth.McrReportUploadPage
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,7 +15,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MediCareTheme {
-                McrHomePage()
+                McrReportUploadPage()
             }
         }
     }
