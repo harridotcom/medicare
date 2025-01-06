@@ -8,17 +8,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import com.medicare.other.McrNavigationBars
 import com.medicare.other.McrTopAppBar
 
-@Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun McrHomePage(modifier: Modifier = Modifier) {
+fun McrHomePage(
+    modifier: Modifier = Modifier,
+    navController: NavController
+) {
     Scaffold(
         topBar = { McrTopAppBar()},
         bottomBar = {
             BottomAppBar {
-                McrNavigationBars()
+                McrNavigationBars(navController = navController)
             }
         },
         containerColor = Color(0xFFF5F5F5),

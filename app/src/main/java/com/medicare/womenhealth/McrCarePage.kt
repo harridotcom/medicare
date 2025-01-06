@@ -18,15 +18,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.medicare.other.McrNavigationBars
 import com.medicare.other.McrTopAppBar2
 
-@Preview(showSystemUi = true, showBackground = true)
+
 @Composable
-fun McrCarePage(modifier: Modifier = Modifier) {
+fun McrCarePage(
+    modifier: Modifier = Modifier,
+    navController: NavController
+) {
     Scaffold(
         topBar = { McrTopAppBar2() },
-        bottomBar = { McrNavigationBars() }
+        bottomBar = { McrNavigationBars(navController = navController) }
     ) { paddingValues ->
         Column(
             modifier = Modifier

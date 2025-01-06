@@ -27,10 +27,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.medicare.R
 
 @Composable
-fun McrNavigationBars(modifier: Modifier = Modifier) {
+fun McrNavigationBars(modifier: Modifier = Modifier, navController: NavController) {
 
     val items = listOf(
         NavigationBarItem.Home,
@@ -45,7 +46,7 @@ fun McrNavigationBars(modifier: Modifier = Modifier) {
         items.forEach { item ->
             NavigationBarItem(
                 selected = false,
-                onClick = { /*TODO*/ },
+                onClick = { navController.navigate(item.route) },
                 icon = {
                     Icon(
                         painter = painterResource(id = item.icon),
@@ -59,11 +60,11 @@ fun McrNavigationBars(modifier: Modifier = Modifier) {
     }
 }
 
-sealed class NavigationBarItem(val label: String,val icon: Int){
-    object Home: NavigationBarItem("Home", R.drawable.home)
-    object MentalHealth: NavigationBarItem("Mind", R.drawable.brain)
-    object PhysicalHealth: NavigationBarItem("Body", R.drawable.weight)
-    object WomenHealth: NavigationBarItem("Women",R.drawable.women )
+sealed class NavigationBarItem(val label: String,val icon: Int, val route: String){
+    object Home: NavigationBarItem("Home", R.drawable.home, "home")
+    object MentalHealth: NavigationBarItem("Mind", R.drawable.brain, "mind")
+    object PhysicalHealth: NavigationBarItem("Body", R.drawable.weight, "body")
+    object WomenHealth: NavigationBarItem("Women",R.drawable.women, "care")
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

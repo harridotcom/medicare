@@ -17,16 +17,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.medicare.R
 import com.medicare.other.McrNavigationBars
 import com.medicare.other.McrTopAppBar2
 
-@Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun McrBodyPage(modifier: Modifier = Modifier) {
+fun McrBodyPage(
+    modifier: Modifier = Modifier,
+    navController: NavController
+) {
     Scaffold(
         topBar = { McrTopAppBar2() },
-        bottomBar = { McrNavigationBars() }
+        bottomBar = { McrNavigationBars(navController = navController) }
     ) { paddingValues ->
         BodyPageContent(modifier.padding(paddingValues))
     }
