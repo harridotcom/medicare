@@ -8,4 +8,7 @@ object NavDestinations {
     const val MIND = "mind"
     const val BODY = "body"
     const val CARE = "care"
+    const val REPORT_UPLOAD = "reportUpload"
+    const val DIETFORM = "dietForm"
+    const val WORKOUTFORM = "workoutForm"
 }

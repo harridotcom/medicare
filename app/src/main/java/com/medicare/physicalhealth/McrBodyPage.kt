@@ -21,6 +21,7 @@ import androidx.navigation.NavController
 import com.medicare.R
 import com.medicare.other.McrNavigationBars
 import com.medicare.other.McrTopAppBar2
+import com.medicare.other.NavDestinations
 
 @Composable
 fun McrBodyPage(
@@ -31,12 +32,18 @@ fun McrBodyPage(
         topBar = { McrTopAppBar2() },
         bottomBar = { McrNavigationBars(navController = navController) }
     ) { paddingValues ->
-        BodyPageContent(modifier.padding(paddingValues))
+        BodyPageContent(
+            modifier.padding(paddingValues),
+            navController = navController
+        )
     }
 }
 
 @Composable
-fun BodyPageContent(modifier: Modifier = Modifier) {
+fun BodyPageContent(
+    modifier: Modifier = Modifier,
+    navController: NavController
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -47,14 +54,18 @@ fun BodyPageContent(modifier: Modifier = Modifier) {
         Sections(
             title = "Generate Diet Plan",
             description = "Create a personalized diet plan to meet your health goals.",
-            logo = painterResource(id = R.drawable.weight)
+            logo = painterResource(id = R.drawable.weight),
+            route = NavDestinations.DIETFORM,
+            navController = navController
         )
 
         // Workout Section
         Sections(
             title = "Generate Workout Plan",
             description = "Design a workout plan tailored to your fitness level.",
-            logo = painterResource(id = R.drawable.weight)
+            logo = painterResource(id = R.drawable.weight),
+            route = NavDestinations.WORKOUTFORM,
+            navController = navController
         )
     }
 }
@@ -64,7 +75,9 @@ fun Sections(
     modifier: Modifier = Modifier,
     title: String,
     description: String,
-    logo: Painter
+    logo: Painter,
+    route: String,
+    navController: NavController
 ) {
     Column(
         modifier = modifier
@@ -103,7 +116,9 @@ fun Sections(
 
         // Centered Button
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                navController.navigate(route)
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFFFF6E40)
             ),

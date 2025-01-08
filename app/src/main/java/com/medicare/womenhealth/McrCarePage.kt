@@ -16,11 +16,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.medicare.other.McrNavigationBars
 import com.medicare.other.McrTopAppBar2
+import com.medicare.other.NavDestinations
 
 
 @Composable
@@ -53,7 +53,9 @@ fun McrCarePage(
                     Text(text = "Check your PCOD / PCOS")
                     Spacer(modifier = Modifier.height(8.dp))
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            navController.navigate(NavDestinations.REPORT_UPLOAD)
+                        },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFFFF6E40)
                         ),
