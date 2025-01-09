@@ -22,8 +22,8 @@ fun McrNavgation(modifier: Modifier = Modifier) {
         navController = navController,
         startDestination = NavDestinations.HOME
     ) {
-        composable(NavDestinations.LOGIN) { McrLoginPage() }
-        composable(NavDestinations.SIGNUP) { McrSignUpPage() }
+        composable(NavDestinations.LOGIN) { McrLoginPage(navController = navController) }
+        composable(NavDestinations.SIGNUP) { McrSignUpPage(navController = navController) }
         composable(NavDestinations.HOME) { McrHomePage(navController = navController) }
         composable(NavDestinations.MIND) { McrMindPage(navController = navController) }
         composable(NavDestinations.BODY) { McrBodyPage(navController = navController) }

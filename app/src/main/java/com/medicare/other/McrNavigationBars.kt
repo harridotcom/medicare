@@ -31,7 +31,10 @@ import androidx.navigation.NavController
 import com.medicare.R
 
 @Composable
-fun McrNavigationBars(modifier: Modifier = Modifier, navController: NavController) {
+fun McrNavigationBars(
+    modifier: Modifier = Modifier,
+    navController: NavController
+) {
 
     val items = listOf(
         NavigationBarItem.Home,
@@ -73,7 +76,7 @@ fun McrTopAppBar(modifier: Modifier = Modifier) {
     TopAppBar(
         title = { /*  */ },
         modifier = Modifier
-            .background(Color(0xFFF5F5F5)),
+            .background(Color.White),
         navigationIcon = {
             // Left Logo
             Image(

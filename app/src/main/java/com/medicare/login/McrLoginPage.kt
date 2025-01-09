@@ -6,10 +6,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -32,11 +34,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.medicare.R
+import com.medicare.other.NavDestinations
 
-@Preview(showBackground = true, showSystemUi = true)
+//@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun McrLoginPage(modifier: Modifier = Modifier) {
+fun McrLoginPage(
+    modifier: Modifier = Modifier,
+    navController: NavController
+) {
     var name by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
@@ -50,96 +58,107 @@ fun McrLoginPage(modifier: Modifier = Modifier) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 48.dp),
+                .padding(top = 32.dp), // Reduced top padding
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
                 bitmap = ImageBitmap.imageResource(id = R.drawable.logo_medicare),
                 contentDescription = "Medicare logo",
                 modifier = Modifier
-                    .height(80.dp)
-                    .padding(bottom = 16.dp)
+                    .height(60.dp) // Reduced logo height
+                    .padding(top = 20.dp) // Reduced bottom padding
             )
-        }
 
-        // Centered White Box
-        Box(
-            modifier = Modifier
-                .fillMaxWidth(0.9f) // Width of the box
-                .padding(horizontal = 16.dp)
-                .background(Color.White, shape = RoundedCornerShape(16.dp))
-                .padding(24.dp)
-                .align(Alignment.Center), // Center the box
-            contentAlignment = Alignment.Center
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth()
+            Spacer(modifier = Modifier.height(50.dp))
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth(1f) // Width of the box
+                    .padding(horizontal = 12.dp) // Reduced horizontal padding
+                    .background(Color.White, shape = RoundedCornerShape(16.dp))
+                    .padding(16.dp)
             ) {
-                // Title
-                Text(
-                    text = "Login Page",
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.padding(bottom = 24.dp),
-                    fontWeight = FontWeight.Bold
-                )
-
-                // Input Fields
-                OutlinedTextField(
-                    value = name,
-                    onValueChange = { name = it },
-                    label = { Text(text = "Email") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp),
-                    leadingIcon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.baseline_person_24),
-                            contentDescription = "human icon"
-                        )
-                    }
-
-                )
-
-                OutlinedTextField(
-                    value = password,
-                    onValueChange = { password = it },
-                    label = { Text(text = "Password") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 24.dp),
-                    leadingIcon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.baseline_lock_24),
-                            contentDescription = "human icon"
-                        )
-                    }
-                )
-
-                // Login Button
-                Button(
-                    onClick = { /* TODO */ },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF6E40)), // Pinkish-orange button
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp)
-                ) {
-                    Text(text = "Login")
-                }
-
-                // Sign-Up Link
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(text = "Don't have an account?")
-                    TextButton(onClick = { /* TODO */ }) {
-                        Text(text = "Sign Up")
+                    // Title
+                    Text(
+                        text = "Login Page",
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.padding(bottom = 20.dp),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp
+                    )
+
+                    // Input Fields
+                    OutlinedTextField(
+                        value = name,
+                        onValueChange = { name = it },
+                        label = { Text(text = "Email") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 12.dp),
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_person_24),
+                                contentDescription = "human icon"
+                            )
+                        }
+
+                    )
+
+                    OutlinedTextField(
+                        value = password,
+                        onValueChange = { password = it },
+                        label = { Text(text = "Password") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 16.dp),
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_lock_24),
+                                contentDescription = "human icon"
+                            )
+                        }
+                    )
+
+                    // Login Button
+                    Button(
+                        onClick = { /* TODO: Add sign-up logic */ },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF6E40)), // Pinkish-orange button
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 12.dp) // Reduced bottom padding
+                            .height(48.dp)
+                    ) {
+                        Text(
+                            text = "Login",
+                            color = Color.White
+                        )
+                    }
+
+                    // Sign-Up Link
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(text = "Don't have an account?")
+                        TextButton(
+                            onClick = {
+                                navController.navigate(NavDestinations.SIGNUP)
+                            },
+                            modifier = Modifier.padding(end = 2.dp)
+                        ) {
+                            Text(text = "Sign Up")
+                        }
                     }
                 }
             }
         }
+
+
     }
 }

@@ -54,7 +54,7 @@ fun BodyPageContent(
         Sections(
             title = "Generate Diet Plan",
             description = "Create a personalized diet plan to meet your health goals.",
-            logo = painterResource(id = R.drawable.weight),
+            logo = painterResource(id = R.drawable.fork),
             route = NavDestinations.DIETFORM,
             navController = navController
         )
@@ -63,7 +63,7 @@ fun BodyPageContent(
         Sections(
             title = "Generate Workout Plan",
             description = "Design a workout plan tailored to your fitness level.",
-            logo = painterResource(id = R.drawable.weight),
+            logo = painterResource(id = R.drawable._dumbel),
             route = NavDestinations.WORKOUTFORM,
             navController = navController
         )
@@ -103,12 +103,12 @@ fun Sections(
                 Text(
                     text = title,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
+                    fontSize = 15.sp,
                     color = Color.Black
                 )
                 Text(
                     text = description,
-                    fontSize = 16.sp,
+                    fontSize = 12.sp,
                     color = Color.Gray
                 )
             }
