@@ -72,11 +72,14 @@ sealed class NavigationBarItem(val label: String,val icon: Int, val route: Strin
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun McrTopAppBar(modifier: Modifier = Modifier) {
+fun McrTopAppBar(
+    modifier: Modifier = Modifier,
+    navController: NavController
+) {
     TopAppBar(
         title = { /*  */ },
         modifier = Modifier
-            .background(Color.White),
+            .background(Color(0xFFF5F5F5)),
         navigationIcon = {
             // Left Logo
             Image(
@@ -90,7 +93,9 @@ fun McrTopAppBar(modifier: Modifier = Modifier) {
         actions = {
             // Right Profile Icon (Circle)
             IconButton(
-                onClick = { /* Handle profile click */ },
+                onClick = {
+                    navController.navigate(NavDestinations.PROFILE)
+                },
                 modifier = Modifier.padding(16.dp)
             ) {
                 Image(

@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.medicare.other.McrNavigationBars
 import com.medicare.other.McrTopAppBar
@@ -23,10 +22,8 @@ fun McrHomePage(
 
     val containerColor = remember { Color(0xFFF5F5F5) }
     Scaffold(
-        topBar = { McrTopAppBar() },
-        bottomBar = {
-            BottomAppBar { McrNavigationBars(navController = navController) }
-        },
+        topBar = { McrTopAppBar(navController = navController) },
+        bottomBar = { McrNavigationBars(navController = navController) },
         containerColor = containerColor,
     ) { paddingValues ->
         Button(

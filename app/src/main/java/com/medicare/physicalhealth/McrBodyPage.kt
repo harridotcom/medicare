@@ -2,9 +2,18 @@ package com.medicare.physicalhealth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,7 +24,6 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -83,13 +91,18 @@ fun Sections(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(Color(0xFFF5F5F5))
+            .background(
+                color = Color(0xFFF5F5F5),
+                shape = MaterialTheme.shapes.medium
+            )
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Row(
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
         ) {
             Image(
                 painter = logo,
@@ -99,7 +112,8 @@ fun Sections(
                     .padding(end = 16.dp)
             )
             Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.weight(1f)
             ) {
                 Text(
                     text = title,
@@ -115,20 +129,19 @@ fun Sections(
             }
         }
 
-        // Centered Button
         Button(
-            onClick = {
-                navController.navigate(route)
-            },
+            onClick = { navController.navigate(route) },
             colors = ButtonDefaults.buttonColors(
                 containerColor = colorResource(id = R.color.orange)
             ),
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier
                 .width(200.dp)
+                .height(40.dp)
         ) {
             Text(
                 text = "Generate Plan",
-                color = Color.White
+                color = Color.White,
+                fontSize = 14.sp
             )
         }
     }

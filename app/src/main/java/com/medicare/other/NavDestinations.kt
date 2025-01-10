@@ -11,4 +11,6 @@ object NavDestinations {
     const val REPORT_UPLOAD = "reportUpload"
     const val DIETFORM = "dietForm"
     const val WORKOUTFORM = "workoutForm"
+    const val PROFILE = "profile"
+    const val GENERATE_PLAN = "gpl"
 }
