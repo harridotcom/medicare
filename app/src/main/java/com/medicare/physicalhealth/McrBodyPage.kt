@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -120,7 +121,7 @@ fun Sections(
                 navController.navigate(route)
             },
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFFF6E40)
+                containerColor = colorResource(id = R.color.orange)
             ),
             modifier = Modifier.align(Alignment.CenterHorizontally)
                 .width(200.dp)

@@ -25,45 +25,75 @@ fun McrReportUploadPage(modifier: Modifier = Modifier) {
     ) { paddingValues ->
         Box(
             modifier = modifier
-                .size(450.dp)
+                .fillMaxSize()
                 .padding(16.dp)
-                .padding(paddingValues)
-                .padding(top = 30.dp)
-                .shadow(
-                    elevation = 8.dp,
-                    shape = RoundedCornerShape(16.dp)
-                )
-                .background(
-                    color = Color(0xFFF5F5F5),
-                    shape = RoundedCornerShape(16.dp)
-                ),
+                .padding(paddingValues),
             contentAlignment = Alignment.Center
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .shadow(
+                        elevation = 8.dp,
+                        shape = RoundedCornerShape(16.dp)
+                    )
+                    .background(
+                        color = Color(0xFFF9FAFB),
+                        shape = RoundedCornerShape(16.dp)
+                    )
+                    .padding(24.dp)
             ) {
+                // Title
                 Text(
-                    text = "Upload your Report",
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontSize = 25.sp,
+                    text = "Upload Your Report",
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF333333)
+                    color = Color(0xFF2C2C2C)
                 )
-                Spacer(modifier = Modifier.height(25.dp))
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                // Subtitle or Instruction
+                Text(
+                    text = "Please upload your medical report for analysis. Tap the button below to select a file.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontSize = 16.sp,
+                    color = Color(0xFF6B6B6B),
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    lineHeight = 20.sp
+                )
+
+                Spacer(modifier = Modifier.height(30.dp))
+
+                // Upload Button
                 IconButton(
                     onClick = { /* Handle Add Report action */ },
                     modifier = Modifier
-                        .size(64.dp)
-                        .padding(8.dp)
+                        .size(72.dp)
+                        .background(
+                            color = Color(0xFFFF7043),
+                            shape = RoundedCornerShape(36.dp)
+                        )
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
                         contentDescription = "Add Report",
-                        modifier = Modifier.size(48.dp),
-                        tint = Color(0xFFFF6E40)
+                        tint = Color.White,
+                        modifier = Modifier.size(36.dp)
                     )
                 }
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                // Optional Footer Text
+                Text(
+                    text = "Supported formats: PDF, JPG, PNG",
+                    style = MaterialTheme.typography.bodySmall,
+                    fontSize = 14.sp,
+                    color = Color(0xFF9E9E9E)
+                )
             }
         }
     }
