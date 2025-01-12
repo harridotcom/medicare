@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.medicare.R
+import com.medicare.animations.SlideAnimations
 import com.medicare.other.McrTopAppBar2
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -77,214 +79,217 @@ fun McrReportUploadPage(
             uploadStatus = "File selected successfully"
         }
     }
-
-    Scaffold(
-        topBar = { McrTopAppBar2() }
-    ) { paddingValues ->
-        Box(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(16.dp)
-                .padding(paddingValues),
-            contentAlignment = Alignment.Center
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .shadow(elevation = 2.dp, shape = RoundedCornerShape(10.dp))
-                    .background(color = colorResource(R.color.white), shape = RoundedCornerShape(10.dp))
-                    .padding(24.dp)
+    SlideAnimations.AnimatedScreen {
+        Scaffold(
+            topBar = { McrTopAppBar2() }
+        ) { paddingValues ->
+            Box(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+                    .padding(paddingValues),
+                contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = "Upload Medical Report",
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = colorResource(R.color.black)
-                )
-
-                Spacer(modifier = Modifier.height(10.dp))
-
-                Text(
-                    text = "Choose how you'd like to upload your medical report:",
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 14.sp,
-                    color = colorResource(R.color.information_color2),
-                    modifier = Modifier.padding(horizontal = 8.dp),
-                    textAlign = TextAlign.Center,
-                    lineHeight = 20.sp
-                )
-
-                Spacer(modifier = Modifier.height(26.dp))
-
-                // Upload options
-                Row(
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 24.dp),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically
+                        .shadow(elevation = 2.dp, shape = RoundedCornerShape(10.dp))
+                        .background(color = colorResource(R.color.white), shape = RoundedCornerShape(10.dp))
+                        .padding(24.dp)
                 ) {
-                    // Camera Button
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center,
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        ElevatedButton(
-                            onClick = { selectedImageUri?.let { cameraLauncher.launch(it) } },
-                            colors = ButtonDefaults.elevatedButtonColors(
-                                containerColor = colorResource(R.color.lighter_gray),
-                                contentColor = Color.White
-                            ),
-                            modifier = Modifier.size(80.dp),
-                            shape = RectangleShape,
-                            elevation = ButtonDefaults.elevatedButtonElevation(
-                                defaultElevation = 6.dp,
-                                pressedElevation = 8.dp
-                            )
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Create,
-                                contentDescription = "Take Photo",
-                                modifier = Modifier.size(32.dp)
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            "Camera",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium,
-                            color = colorResource(R.color.black)
-                        )
-                    }
+                    Text(
+                        text = "Upload Medical Report",
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = colorResource(R.color.black)
+                    )
 
-                    // File Upload Button
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center,
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        ElevatedButton(
-                            onClick = { fileLauncher.launch("*/*") },
-                            colors = ButtonDefaults.elevatedButtonColors(
-                                containerColor = colorResource(R.color.lighter_gray),
-                                contentColor = Color.White
-                            ),
-                            modifier = Modifier.size(80.dp),
-                            shape = RectangleShape,
-                            elevation = ButtonDefaults.elevatedButtonElevation(
-                                defaultElevation = 6.dp,
-                                pressedElevation = 8.dp
-                            )
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Create,
-                                contentDescription = "Upload File",
-                                modifier = Modifier.size(32.dp)
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            "Upload",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium,
-                            color = colorResource(R.color.black)
-                        )
-                    }
-                }
+                    Spacer(modifier = Modifier.height(10.dp))
 
-                Spacer(modifier = Modifier.height(24.dp))
+                    Text(
+                        text = "Choose how you'd like to upload your medical report:",
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontSize = 14.sp,
+                        color = colorResource(R.color.information_color2),
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        textAlign = TextAlign.Center,
+                        lineHeight = 20.sp
+                    )
 
-                // Preview Section
-                if (selectedImageUri != null || selectedFileUri != null) {
-                    Box(
+                    Spacer(modifier = Modifier.height(26.dp))
+
+                    // Upload options
+                    Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(200.dp)
-                            .background(Color.LightGray, RoundedCornerShape(8.dp))
+                            .padding(horizontal = 24.dp),
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        when {
-                            selectedImageUri != null -> {
-                                AsyncImage(
-                                    model = selectedImageUri,
-                                    contentDescription = "Selected Image",
-                                    contentScale = ContentScale.Fit,
-                                    modifier = Modifier.fillMaxSize()
+                        // Camera Button
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center,
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            ElevatedButton(
+                                onClick = { selectedImageUri?.let { cameraLauncher.launch(it) } },
+                                colors = ButtonDefaults.elevatedButtonColors(
+                                    containerColor = colorResource(R.color.lighter_gray),
+                                    contentColor = Color.Black  // Changed to black
+                                ),
+                                modifier = Modifier.size(80.dp),
+                                shape = RectangleShape,
+                                elevation = ButtonDefaults.elevatedButtonElevation(
+                                    defaultElevation = 6.dp,
+                                    pressedElevation = 8.dp
+                                )
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.camera),
+                                    contentDescription = "Camera",
+                                    modifier = Modifier.size(32.dp),
+                                    tint = Color.Unspecified
                                 )
                             }
-                            selectedFileUri != null -> {
-                                // Show file name or icon for PDFs
-                                Text(
-                                    text = "Selected File: ${selectedFileUri.toString().substringAfterLast("/")}",
-                                    modifier = Modifier
-                                        .align(Alignment.Center)
-                                        .padding(16.dp)
-                                )
-                            }
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                "Camera",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = colorResource(R.color.black)
+                            )
                         }
 
-                        // Clear selection button
-                        IconButton(
-                            onClick = {
-                                selectedImageUri = null
-                                selectedFileUri = null
-                                uploadStatus = null
-                            },
-                            modifier = Modifier
-                                .align(Alignment.TopEnd)
-                                .padding(8.dp)
+                        // File Upload Button
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center,
+                            modifier = Modifier.weight(1f)
                         ) {
-                            Icon(
-                                imageVector = Icons.Default.Clear,
-                                contentDescription = "Clear Selection",
-                                tint = Color.White
+                            ElevatedButton(
+                                onClick = { fileLauncher.launch("*/*") },
+                                colors = ButtonDefaults.elevatedButtonColors(
+                                    containerColor = colorResource(R.color.lighter_gray),
+                                    contentColor = Color.Black  // Changed to black
+                                ),
+                                modifier = Modifier.size(80.dp),
+                                shape = RectangleShape,
+                                elevation = ButtonDefaults.elevatedButtonElevation(
+                                    defaultElevation = 6.dp,
+                                    pressedElevation = 8.dp
+                                )
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.upload),
+                                    contentDescription = "Upload",
+                                    modifier = Modifier.size(32.dp),
+                                    tint = Color.Unspecified
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                "Upload",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = colorResource(R.color.black)
                             )
                         }
                     }
-                }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(24.dp))
 
-                // Upload status
-                uploadStatus?.let {
+                    // Preview Section
+                    if (selectedImageUri != null || selectedFileUri != null) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(200.dp)
+                                .background(Color.LightGray, RoundedCornerShape(8.dp))
+                        ) {
+                            when {
+                                selectedImageUri != null -> {
+                                    AsyncImage(
+                                        model = selectedImageUri,
+                                        contentDescription = "Selected Image",
+                                        contentScale = ContentScale.Fit,
+                                        modifier = Modifier.fillMaxSize()
+                                    )
+                                }
+                                selectedFileUri != null -> {
+                                    // Show file name or icon for PDFs
+                                    Text(
+                                        text = "Selected File: ${selectedFileUri.toString().substringAfterLast("/")}",
+                                        modifier = Modifier
+                                            .align(Alignment.Center)
+                                            .padding(16.dp)
+                                    )
+                                }
+                            }
+
+                            // Clear selection button
+                            IconButton(
+                                onClick = {
+                                    selectedImageUri = null
+                                    selectedFileUri = null
+                                    uploadStatus = null
+                                },
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .padding(8.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Clear,
+                                    contentDescription = "Clear Selection",
+                                    tint = Color.White
+                                )
+                            }
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    // Upload status
+                    uploadStatus?.let {
+                        Text(
+                            text = it,
+                            color = colorResource(R.color.green),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    // Upload Button
+                    Button(
+                        onClick = {
+                            // Handle final upload
+                            selectedImageUri?.let { onUploadComplete(it) }
+                            selectedFileUri?.let { onUploadComplete(it) }
+                        },
+                        enabled = selectedImageUri != null || selectedFileUri != null,
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = colorResource(R.color.orange),
+                            disabledContainerColor = Color.Gray
+                        )
+                    ) {
+                        Text("Upload Report", color = Color.White)
+                    }
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    // File requirements
                     Text(
-                        text = it,
-                        color = colorResource(R.color.green),
-                        style = MaterialTheme.typography.bodyMedium
+                        text = "Supported formats: PDF, JPG, PNG\nMaximum file size: 10MB",
+                        style = MaterialTheme.typography.bodySmall,
+                        fontSize = 12.sp,
+                        color = colorResource(R.color.information_color1),
+                        textAlign = TextAlign.Center
                     )
                 }
-
-                Spacer(modifier = Modifier.height(10.dp))
-
-                // Upload Button
-                Button(
-                    onClick = {
-                        // Handle final upload
-                        selectedImageUri?.let { onUploadComplete(it) }
-                        selectedFileUri?.let { onUploadComplete(it) }
-                    },
-                    enabled = selectedImageUri != null || selectedFileUri != null,
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(R.color.orange),
-                        disabledContainerColor = Color.Gray
-                    )
-                ) {
-                    Text("Upload Report", color = Color.White)
-                }
-
-                Spacer(modifier = Modifier.height(10.dp))
-
-                // File requirements
-                Text(
-                    text = "Supported formats: PDF, JPG, PNG\nMaximum file size: 10MB",
-                    style = MaterialTheme.typography.bodySmall,
-                    fontSize = 12.sp,
-                    color = colorResource(R.color.information_color1),
-                    textAlign = TextAlign.Center
-                )
             }
         }
     }

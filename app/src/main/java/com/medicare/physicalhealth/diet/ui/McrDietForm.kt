@@ -1,5 +1,6 @@
 package com.medicare.physicalhealth.diet.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -54,6 +55,15 @@ fun McrDietForm(
     var healthGoals by remember { mutableStateOf("") }
     var mealPreference by remember { mutableStateOf("") }
 
+    BackHandler {
+        navController.navigate(NavDestinations.BODY){
+            popUpTo(NavDestinations.BODY){
+                inclusive = true
+            }
+        }
+    }
+
+
     Scaffold(
         topBar = { McrTopAppBar2() },
         bottomBar = { McrNavigationBars(navController = navController) },
@@ -73,11 +83,10 @@ fun McrDietForm(
                 ) {
                     item {
                         Image(
-                            painter = painterResource(id = R.drawable.weight),
+                            painter = painterResource(id = R.drawable.healthy_food),
                             contentDescription = "Dumbbell icon",
                             modifier = Modifier
-                                .size(60.dp)
-                                .rotate(90f)
+                                .size(80.dp)
                                 .padding(start = 10.dp)
                         )
                     }

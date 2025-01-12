@@ -13,4 +13,5 @@ object NavDestinations {
     const val WORKOUTFORM = "workoutForm"
     const val PROFILE = "profile"
     const val GENERATE_PLAN = "gpl"
+    const val SAVED_PLAN =  "savedPlan"
 }

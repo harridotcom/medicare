@@ -1,5 +1,6 @@
 package com.medicare.womenhealth
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,6 +31,15 @@ fun McrCarePage(
     modifier: Modifier = Modifier,
     navController: NavController
 ) {
+
+    BackHandler {
+        navController.navigate(NavDestinations.HOME){
+            popUpTo(NavDestinations.HOME){
+                inclusive = true
+            }
+        }
+    }
+
     Scaffold(
         topBar = { McrTopAppBar2() },
         bottomBar = { McrNavigationBars(navController = navController) }

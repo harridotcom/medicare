@@ -1,5 +1,6 @@
 package com.medicare.physicalhealth.workout.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -53,6 +55,14 @@ fun McrWorkoutForm(
     var healthConditions by remember { mutableStateOf("") }
     var workoutDuration by remember { mutableStateOf("") }
 
+    BackHandler {
+        navController.navigate(NavDestinations.BODY){
+            popUpTo(NavDestinations.BODY){
+                inclusive = true
+            }
+        }
+    }
+
     Scaffold(
         topBar = { McrTopAppBar2() },
         bottomBar = { McrNavigationBars(navController = navController) },
@@ -72,12 +82,12 @@ fun McrWorkoutForm(
                 ) {
                     item {
                         Image(
-                            painter = painterResource(id = R.drawable.weight),
+                            painter = painterResource(id = R.drawable.running),
                             contentDescription = "Dumbbell icon",
                             modifier = Modifier
-                                .size(60.dp)
-                                .rotate(90f)
-                                .padding(start = 10.dp)  // Added start padding
+                                .size(80.dp)
+                                .padding(start = 10.dp)
+                                .scale(scaleX = -1f, scaleY = 1f)
                         )
                     }
 

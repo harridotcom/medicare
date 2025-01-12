@@ -1,5 +1,6 @@
 package com.medicare.physicalhealth
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -37,6 +38,14 @@ fun McrBodyPage(
     modifier: Modifier = Modifier,
     navController: NavController
 ) {
+    BackHandler {
+        navController.navigate(NavDestinations.HOME){
+            popUpTo(NavDestinations.HOME){
+                inclusive = true
+            }
+        }
+    }
+
     Scaffold(
         topBar = { McrTopAppBar2() },
         bottomBar = { McrNavigationBars(navController = navController) }
