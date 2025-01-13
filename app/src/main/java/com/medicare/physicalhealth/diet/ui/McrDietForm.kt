@@ -1,9 +1,7 @@
 package com.medicare.physicalhealth.diet.ui
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
@@ -17,9 +15,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.medicare.R
-import com.medicare.other.McrNavigationBars
-import com.medicare.other.McrTopAppBar2
-import com.medicare.other.NavDestinations
+import com.medicare.other.ui.McrNavigationBars
+import com.medicare.other.ui.McrTopAppBar2
+import com.medicare.other.helper.NavDestinations
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

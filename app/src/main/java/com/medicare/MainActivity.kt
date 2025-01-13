@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.medicare.other.McrNavgation
+import com.medicare.other.helper.McrNavgation
 import com.medicare.ui.theme.MediCareTheme
 
 class MainActivity : ComponentActivity() {
@@ -14,14 +14,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MediCareTheme {
-//                McrReportUploadPage()
-//                McrLoginPage()
-//                McrSignUpPage()c
-//                McrHomePage()
                 McrNavgation()
-//                McrLoginPage()
-//                McrSavedPlans()
-
             }
         }
     }

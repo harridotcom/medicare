@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Create
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
@@ -47,7 +46,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.medicare.R
 import com.medicare.animations.SlideAnimations
-import com.medicare.other.McrTopAppBar2
+import com.medicare.other.ui.McrTopAppBar2
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

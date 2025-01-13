@@ -29,9 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.medicare.R
-import com.medicare.other.McrNavigationBars
-import com.medicare.other.McrTopAppBar2
-import com.medicare.other.NavDestinations
+import com.medicare.other.ui.McrNavigationBars
+import com.medicare.other.ui.McrTopAppBar2
+import com.medicare.other.helper.NavDestinations
 
 
 @Composable

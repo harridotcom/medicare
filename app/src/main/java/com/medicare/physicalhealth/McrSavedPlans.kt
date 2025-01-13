@@ -4,7 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import com.medicare.other.NavDestinations
+import com.medicare.other.helper.NavDestinations
 
 @Composable
 fun McrSavedPlans(

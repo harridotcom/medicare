@@ -1,4 +1,4 @@
-package com.medicare.other
+package com.medicare.other.helper
 
 
 object NavDestinations {
@@ -14,4 +14,5 @@ object NavDestinations {
     const val PROFILE = "profile"
     const val GENERATE_PLAN = "gpl"
     const val SAVED_PLAN =  "savedPlan"
+    const val INTRO_SCREEN = "intro_screen"
 }

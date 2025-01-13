@@ -22,9 +22,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.medicare.other.McrNavigationBars
-import com.medicare.other.McrTopAppBar2
-import com.medicare.other.NavDestinations
+import com.medicare.other.ui.McrNavigationBars
+import com.medicare.other.ui.McrTopAppBar2
+import com.medicare.other.helper.NavDestinations
 
 @Composable
 fun McrCarePage(

@@ -1,5 +1,10 @@
 package com.medicare.physicalhealth
 
+import android.content.Context
+import android.media.AudioManager
+import android.net.Uri
+import android.widget.MediaController
+import android.widget.VideoView
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,8 +17,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -25,13 +32,15 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import com.medicare.R
-import com.medicare.other.McrNavigationBars
-import com.medicare.other.McrTopAppBar2
-import com.medicare.other.NavDestinations
+import com.medicare.other.ui.McrNavigationBars
+import com.medicare.other.ui.McrTopAppBar2
+import com.medicare.other.helper.NavDestinations
 
 @Composable
 fun McrBodyPage(
@@ -62,29 +71,72 @@ fun BodyPageContent(
     modifier: Modifier = Modifier,
     navController: NavController
 ) {
-    Column(
+    LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        // Welcome Section
+        item {
+            Text(
+                text = "Medicare AI Assistant",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.primary,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(top = 4.dp, start = 10.dp),
+                fontSize = 12.sp
+            )
+        }
+
+        // Video Section
+        item {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+            ) {
+                AndroidView(
+                    factory = { context ->
+                        VideoView(context).apply {
+                            setVideoURI(Uri.parse("android.resource://" + context.packageName + "/" + R.raw.videoplayback))
+                            setMediaController(MediaController(context))
+                            start()
+
+                            // Mute the audio
+                            val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+                            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0)
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(240.dp)
+                )
+
+            }
+        }
+
         // Diet Section
-        Sections(
-            title = "Generate Diet Plan",
-            description = "Create a personalized diet plan to meet your health goals.",
-            logo = painterResource(id = R.drawable.fork),
-            route = NavDestinations.DIETFORM,
-            navController = navController
-        )
+        item {
+            Sections(
+                title = "Generate Diet Plan",
+                description = "Get a custom diet plan tailored just for you",
+                logo = painterResource(id = R.drawable.fork),
+                route = NavDestinations.DIETFORM,
+                navController = navController
+            )
+        }
 
         // Workout Section
-        Sections(
-            title = "Generate Workout Plan",
-            description = "Design a workout plan tailored to your fitness level.",
-            logo = painterResource(id = R.drawable._dumbel),
-            route = NavDestinations.WORKOUTFORM,
-            navController = navController
-        )
+        item {
+            Sections(
+                title = "Generate Workout Plan",
+                description = "Personalized workouts tailored to your fitness journey",
+                logo = painterResource(id = R.drawable._dumbel),
+                route = NavDestinations.WORKOUTFORM,
+                navController = navController
+            )
+        }
     }
 }
 

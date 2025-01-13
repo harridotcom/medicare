@@ -1,4 +1,4 @@
-package com.medicare.other
+package com.medicare.other.helper
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -8,6 +8,8 @@ import androidx.navigation.compose.rememberNavController
 import com.medicare.home.McrHomePage
 import com.medicare.login.McrLoginPage
 import com.medicare.mentalhealth.McrMindPage
+import com.medicare.other.ui.IntroScreen
+import com.medicare.other.ui.McrProfilePage
 import com.medicare.physicalhealth.McrBodyPage
 import com.medicare.physicalhealth.McrGeneratedPlan
 import com.medicare.physicalhealth.McrSavedPlans
@@ -22,7 +24,7 @@ fun McrNavgation(modifier: Modifier = Modifier) {
     var navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = NavDestinations.HOME
+        startDestination = NavDestinations.INTRO_SCREEN
     ) {
         composable(NavDestinations.LOGIN) { McrLoginPage(navController = navController) }
         composable(NavDestinations.SIGNUP) { McrSignUpPage(navController = navController) }
@@ -36,5 +38,6 @@ fun McrNavgation(modifier: Modifier = Modifier) {
         composable(NavDestinations.PROFILE) { McrProfilePage(navController = navController) }
         composable(NavDestinations.GENERATE_PLAN) { McrGeneratedPlan(navController = navController) }
         composable(NavDestinations.SAVED_PLAN) { McrSavedPlans(navController = navController) }
+        composable(NavDestinations.INTRO_SCREEN) { IntroScreen(navController = navController) }
     }
 }

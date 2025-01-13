@@ -1,4 +1,4 @@
-package com.medicare.other
+package com.medicare.other.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -38,6 +38,8 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.medicare.R
 import com.medicare.animations.SlideAnimations
+import com.medicare.other.helper.NavDestinations
+import com.medicare.other.helper.shareLink
 
 @Composable
 fun McrProfilePage(navController: NavController) {

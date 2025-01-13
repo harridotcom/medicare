@@ -1,4 +1,4 @@
-package com.medicare.other
+package com.medicare.other.helper
 
 import android.content.Context
 import android.content.Intent
