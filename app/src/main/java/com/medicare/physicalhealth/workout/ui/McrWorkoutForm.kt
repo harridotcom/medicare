@@ -19,6 +19,9 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -43,6 +46,7 @@ import com.medicare.other.McrNavigationBars
 import com.medicare.other.McrTopAppBar2
 import com.medicare.other.NavDestinations
 
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 @Composable
 fun McrWorkoutForm(
     modifier: Modifier = Modifier,
@@ -51,9 +55,22 @@ fun McrWorkoutForm(
     var fitnessGoal by remember { mutableStateOf("") }
     var workoutFrequency by remember { mutableStateOf("") }
     var availableEquipment by remember { mutableStateOf("") }
-    var fitnessLevel by remember { mutableStateOf("") }
     var healthConditions by remember { mutableStateOf("") }
+    var injuries by remember { mutableStateOf("") }
     var workoutDuration by remember { mutableStateOf("") }
+
+    // Dropdown states
+    var selectedFitnessLevel by remember { mutableStateOf("") }
+    var expandedFitnessLevel by remember { mutableStateOf(false) }
+    val fitnessLevels = listOf("Beginner", "Intermediate", "Advanced")
+
+    var selectedWorkoutType by remember { mutableStateOf("") }
+    var expandedWorkoutType by remember { mutableStateOf(false) }
+    val workoutTypes = listOf("Cardio", "Strength Training", "Yoga", "HIIT", "Pilates")
+
+    var selectedActivityLevel by remember { mutableStateOf("") }
+    var expandedActivityLevel by remember { mutableStateOf(false) }
+    val activityLevels = listOf("Sedentary", "Lightly Active", "Moderately Active", "Highly Active")
 
     BackHandler {
         navController.navigate(NavDestinations.BODY){
@@ -77,13 +94,13 @@ fun McrWorkoutForm(
                         .weight(1f)
                         .fillMaxWidth()
                         .padding(16.dp),
-                    horizontalAlignment = Alignment.Start,  // Changed to Start alignment
+                    horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     item {
                         Image(
                             painter = painterResource(id = R.drawable.running),
-                            contentDescription = "Dumbbell icon",
+                            contentDescription = "Running icon",
                             modifier = Modifier
                                 .size(80.dp)
                                 .padding(start = 10.dp)
@@ -91,24 +108,53 @@ fun McrWorkoutForm(
                         )
                     }
 
+                    // Fitness Level Dropdown
                     item {
-                        OutlinedTextField(
-                            value = fitnessGoal,
-                            onValueChange = { fitnessGoal = it },
-                            label = { Text("Fitness Goal", fontSize = 12.sp) },
-                            leadingIcon = {
-                                Icon(
-                                    Icons.Filled.Person,
-                                    contentDescription = "Goal",
-                                    modifier = Modifier.size(20.dp)
-                                )
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 10.dp),
-                            singleLine = true,
-                            textStyle = MaterialTheme.typography.bodyMedium
-                        )
+                        ExposedDropdownMenuBox(
+                            expanded = expandedFitnessLevel,
+                            onExpandedChange = { expandedFitnessLevel = !expandedFitnessLevel }
+                        ) {
+                            OutlinedTextField(
+                                value = selectedFitnessLevel,
+                                onValueChange = {},
+                                readOnly = true,
+                                label = { Text("Current Fitness Level", fontSize = 12.sp) },
+                                leadingIcon = {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.fitness),
+                                        contentDescription = "Fitness Level",
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                },
+                                modifier = Modifier
+                                    .menuAnchor()
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 10.dp),
+                                textStyle = MaterialTheme.typography.bodyMedium,
+                                trailingIcon = {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.baseline_arrow_drop_down_24),
+                                        contentDescription = "Dropdown",
+                                        modifier = Modifier.rotate(if (expandedFitnessLevel) 180f else 0f)
+                                    )
+                                }
+                            )
+                            ExposedDropdownMenu(
+                                expanded = expandedFitnessLevel,
+                                onDismissRequest = { expandedFitnessLevel = false },
+                                modifier = Modifier.exposedDropdownSize()
+                            ) {
+                                fitnessLevels.forEach { level ->
+                                    DropdownMenuItem(
+                                        text = { Text(level) },
+                                        onClick = {
+                                            selectedFitnessLevel = level
+                                            expandedFitnessLevel = false
+                                        }
+                                    )
+                                }
+                            }
+                        }
                     }
 
                     item {
@@ -119,13 +165,13 @@ fun McrWorkoutForm(
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             OutlinedTextField(
-                                value = workoutFrequency,
-                                onValueChange = { workoutFrequency = it },
-                                label = { Text("Workout Frequency", fontSize = 12.sp) },
+                                value = fitnessGoal,
+                                onValueChange = { fitnessGoal = it },
+                                label = { Text("Fitness Goals", fontSize = 12.sp) },
                                 leadingIcon = {
                                     Icon(
-                                        Icons.Filled.Favorite,
-                                        contentDescription = "Frequency",
+                                        painter = painterResource(id = R.drawable.goal),
+                                        contentDescription = "Goal",
                                         modifier = Modifier.size(20.dp)
                                     )
                                 },
@@ -135,13 +181,13 @@ fun McrWorkoutForm(
                             )
 
                             OutlinedTextField(
-                                value = workoutDuration,
-                                onValueChange = { workoutDuration = it },
-                                label = { Text("Duration", fontSize = 12.sp) },
+                                value = workoutFrequency,
+                                onValueChange = { workoutFrequency = it },
+                                label = { Text("Workout Frequency", fontSize = 12.sp) },
                                 leadingIcon = {
                                     Icon(
-                                        Icons.Filled.Home,
-                                        contentDescription = "Duration",
+                                        painter = painterResource(id = R.drawable.goal),
+                                        contentDescription = "Frequency",
                                         modifier = Modifier.size(20.dp)
                                     )
                                 },
@@ -154,13 +200,82 @@ fun McrWorkoutForm(
 
                     item {
                         OutlinedTextField(
-                            value = availableEquipment,
-                            onValueChange = { availableEquipment = it },
-                            label = { Text("Available Equipment", fontSize = 12.sp) },
+                            value = workoutDuration,
+                            onValueChange = { workoutDuration = it },
+                            label = { Text("Workout Duration", fontSize = 12.sp) },
                             leadingIcon = {
                                 Icon(
-                                    Icons.Filled.Home,
-                                    contentDescription = "Equipment",
+                                    painter = painterResource(id = R.drawable.goal),
+                                    contentDescription = "Duration",
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 10.dp),
+                            singleLine = true,
+                            textStyle = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+
+                    // Workout Type Dropdown
+                    item {
+                        ExposedDropdownMenuBox(
+                            expanded = expandedWorkoutType,
+                            onExpandedChange = { expandedWorkoutType = !expandedWorkoutType }
+                        ) {
+                            OutlinedTextField(
+                                value = selectedWorkoutType,
+                                onValueChange = {},
+                                readOnly = true,
+                                label = { Text("Preferred Workouts", fontSize = 12.sp) },
+                                leadingIcon = {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.weight),
+                                        contentDescription = "Workout Type",
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                },
+                                modifier = Modifier
+                                    .menuAnchor()
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 10.dp),
+                                textStyle = MaterialTheme.typography.bodyMedium,
+                                trailingIcon = {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.baseline_arrow_drop_down_24),
+                                        contentDescription = "Dropdown",
+                                        modifier = Modifier.rotate(if (expandedWorkoutType) 180f else 0f)
+                                    )
+                                }
+                            )
+                            ExposedDropdownMenu(
+                                expanded = expandedWorkoutType,
+                                onDismissRequest = { expandedWorkoutType = false },
+                                modifier = Modifier.exposedDropdownSize()
+                            ) {
+                                workoutTypes.forEach { type ->
+                                    DropdownMenuItem(
+                                        text = { Text(type) },
+                                        onClick = {
+                                            selectedWorkoutType = type
+                                            expandedWorkoutType = false
+                                        }
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    item {
+                        OutlinedTextField(
+                            value = injuries,
+                            onValueChange = { injuries = it },
+                            label = { Text("Physical Injuries", fontSize = 12.sp) },
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.injury),
+                                    contentDescription = "Injuries",
                                     modifier = Modifier.size(20.dp)
                                 )
                             },
@@ -174,13 +289,13 @@ fun McrWorkoutForm(
 
                     item {
                         OutlinedTextField(
-                            value = fitnessLevel,
-                            onValueChange = { fitnessLevel = it },
-                            label = { Text("Fitness Level", fontSize = 12.sp) },
+                            value = healthConditions,
+                            onValueChange = { healthConditions = it },
+                            label = { Text("Health Conditions", fontSize = 12.sp) },
                             leadingIcon = {
                                 Icon(
-                                    Icons.Filled.Person,
-                                    contentDescription = "Level",
+                                    Icons.Filled.Favorite,
+                                    contentDescription = "Health",
                                     modifier = Modifier.size(20.dp)
                                 )
                             },
@@ -192,62 +307,53 @@ fun McrWorkoutForm(
                         )
                     }
 
+                    // Activity Level Dropdown
                     item {
-                        OutlinedTextField(
-                            value = healthConditions,
-                            onValueChange = { healthConditions = it },
-                            label = { Text("Health Conditions", fontSize = 12.sp) },
-                            leadingIcon = {
-                                Icon(
-                                    Icons.Filled.Favorite,
-                                    contentDescription = "Health",
-                                    modifier = Modifier.size(20.dp)
-                                )
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 10.dp),
-                            singleLine = true,
-                            textStyle = MaterialTheme.typography.bodyMedium
-                        )
-                    }
-                    item {
-                        OutlinedTextField(
-                            value = healthConditions,
-                            onValueChange = { healthConditions = it },
-                            label = { Text("Health Conditions", fontSize = 12.sp) },
-                            leadingIcon = {
-                                Icon(
-                                    Icons.Filled.Favorite,
-                                    contentDescription = "Health",
-                                    modifier = Modifier.size(20.dp)
-                                )
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 10.dp),
-                            singleLine = true,
-                            textStyle = MaterialTheme.typography.bodyMedium
-                        )
-                    }
-                    item {
-                        OutlinedTextField(
-                            value = healthConditions,
-                            onValueChange = { healthConditions = it },
-                            label = { Text("Health Conditions", fontSize = 12.sp) },
-                            leadingIcon = {
-                                Icon(
-                                    Icons.Filled.Favorite,
-                                    contentDescription = "Health",
-                                    modifier = Modifier.size(20.dp)
-                                )
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 10.dp),
-                            singleLine = true,
-                            textStyle = MaterialTheme.typography.bodyMedium
-                        )
+                        ExposedDropdownMenuBox(
+                            expanded = expandedActivityLevel,
+                            onExpandedChange = { expandedActivityLevel = !expandedActivityLevel }
+                        ) {
+                            OutlinedTextField(
+                                value = selectedActivityLevel,
+                                onValueChange = {},
+                                readOnly = true,
+                                label = { Text("Activity Level", fontSize = 12.sp) },
+                                leadingIcon = {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.fitness),
+                                        contentDescription = "Activity Level",
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                },
+                                modifier = Modifier
+                                    .menuAnchor()
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 10.dp),
+                                textStyle = MaterialTheme.typography.bodyMedium,
+                                trailingIcon = {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.baseline_arrow_drop_down_24),
+                                        contentDescription = "Dropdown",
+                                        modifier = Modifier.rotate(if (expandedActivityLevel) 180f else 0f)
+                                    )
+                                }
+                            )
+                            ExposedDropdownMenu(
+                                expanded = expandedActivityLevel,
+                                onDismissRequest = { expandedActivityLevel = false },
+                                modifier = Modifier.exposedDropdownSize()
+                            ) {
+                                activityLevels.forEach { level ->
+                                    DropdownMenuItem(
+                                        text = { Text(level) },
+                                        onClick = {
+                                            selectedActivityLevel = level
+                                            expandedActivityLevel = false
+                                        }
+                                    )
+                                }
+                            }
+                        }
                     }
 
                     item {
@@ -257,17 +363,15 @@ fun McrWorkoutForm(
                                 navController.navigate(NavDestinations.GENERATE_PLAN)
                             },
                             modifier = Modifier
-                                .width(200.dp)
-                                .padding(bottom = 16.dp)
-                                .align(Alignment.CenterHorizontally),
+                                .fillMaxWidth()
+                                .padding(horizontal = 10.dp),
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = colorResource(id = R.color.orange)
                             )
                         ) {
                             Text(
                                 text = "Beast Mode On",
-                                color = colorResource(id = R.color.white),
-                                fontSize = 16.sp
+                                fontSize = 18.sp
                             )
                         }
                     }

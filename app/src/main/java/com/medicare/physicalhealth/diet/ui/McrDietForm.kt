@@ -1,34 +1,13 @@
 package com.medicare.physicalhealth.diet.ui
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -42,6 +21,7 @@ import com.medicare.other.McrNavigationBars
 import com.medicare.other.McrTopAppBar2
 import com.medicare.other.NavDestinations
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun McrDietForm(
     modifier: Modifier = Modifier,
@@ -55,6 +35,16 @@ fun McrDietForm(
     var healthGoals by remember { mutableStateOf("") }
     var mealPreference by remember { mutableStateOf("") }
 
+    // Dropdown for dietary preferences
+    val dietaryOptions = listOf("Vegan", "Vegetarian", "Non-Veg", "Gluten-Free")
+    var expandedDietary by remember { mutableStateOf(false) }
+    var selectedDietary by remember { mutableStateOf("") }
+
+    // Dropdown for meal preferences (weight goals)
+    val mealOptions = listOf("Weight Loss", "Maintenance", "Weight Gain")
+    var expandedMeal by remember { mutableStateOf(false) }
+    var selectedMeal by remember { mutableStateOf("") }
+
     BackHandler {
         navController.navigate(NavDestinations.BODY){
             popUpTo(NavDestinations.BODY){
@@ -62,7 +52,6 @@ fun McrDietForm(
             }
         }
     }
-
 
     Scaffold(
         topBar = { McrTopAppBar2() },
@@ -92,26 +81,6 @@ fun McrDietForm(
                     }
 
                     item {
-                        OutlinedTextField(
-                            value = healthGoals,
-                            onValueChange = { healthGoals = it },
-                            label = { Text("Health Goals", fontSize = 12.sp) },
-                            leadingIcon = {
-                                Icon(
-                                    Icons.Filled.Favorite,
-                                    contentDescription = "Goals",
-                                    modifier = Modifier.size(20.dp)
-                                )
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 10.dp),
-                            singleLine = true,
-                            textStyle = MaterialTheme.typography.bodyMedium
-                        )
-                    }
-
-                    item {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -123,8 +92,8 @@ fun McrDietForm(
                                 onValueChange = { age = it },
                                 label = { Text("Age", fontSize = 12.sp) },
                                 leadingIcon = {
-                                    Icon(
-                                        Icons.Filled.Person,
+                                    Image(
+                                        painter = painterResource(id = R.drawable.age_range),
                                         contentDescription = "Age",
                                         modifier = Modifier.size(20.dp)
                                     )
@@ -139,8 +108,8 @@ fun McrDietForm(
                                 onValueChange = { weight = it },
                                 label = { Text("Weight (kg)", fontSize = 12.sp) },
                                 leadingIcon = {
-                                    Icon(
-                                        Icons.Filled.Favorite,
+                                    Image(
+                                        painter = painterResource(id = R.drawable.weighing_scale),
                                         contentDescription = "Weight",
                                         modifier = Modifier.size(20.dp)
                                     )
@@ -158,8 +127,8 @@ fun McrDietForm(
                             onValueChange = { height = it },
                             label = { Text("Height (cm)", fontSize = 12.sp) },
                             leadingIcon = {
-                                Icon(
-                                    Icons.Filled.Home,
+                                Image(
+                                    painter = painterResource(id = R.drawable.height),
                                     contentDescription = "Height",
                                     modifier = Modifier.size(20.dp)
                                 )
@@ -172,34 +141,62 @@ fun McrDietForm(
                         )
                     }
 
+                    // Dietary Preference dropdown (Vegan, Vegetarian, Non-Veg, Gluten-Free)
                     item {
-                        OutlinedTextField(
-                            value = dietaryPreference,
-                            onValueChange = { dietaryPreference = it },
-                            label = { Text("Dietary Preference", fontSize = 12.sp) },
-                            leadingIcon = {
-                                Icon(
-                                    Icons.Filled.Home,
-                                    contentDescription = "Diet Preference",
-                                    modifier = Modifier.size(20.dp)
-                                )
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 10.dp),
-                            singleLine = true,
-                            textStyle = MaterialTheme.typography.bodyMedium
-                        )
+                        ExposedDropdownMenuBox(
+                            expanded = expandedDietary,
+                            onExpandedChange = { expandedDietary = !expandedDietary }
+                        ) {
+                            OutlinedTextField(
+                                value = selectedDietary,
+                                onValueChange = { selectedDietary = it },
+                                label = { Text("Dietary Restrictions", fontSize = 12.sp) },
+                                leadingIcon = {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.height),
+                                        contentDescription = "Diet Preference",
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                },
+                                modifier = Modifier
+                                    .menuAnchor()
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 10.dp),
+                                readOnly = true,
+                                trailingIcon = {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.baseline_arrow_drop_down_24),
+                                        contentDescription = "DropDown",
+                                        modifier = Modifier.rotate(if (expandedDietary) 180f else 0f)
+                                    )
+                                },
+                                textStyle = MaterialTheme.typography.bodyMedium
+                            )
+                            ExposedDropdownMenu(
+                                expanded = expandedDietary,
+                                onDismissRequest = { expandedDietary = false }
+                            ) {
+                                dietaryOptions.forEach { option ->
+                                    DropdownMenuItem(
+                                        text = { Text(option) },
+                                        onClick = {
+                                            selectedDietary = option
+                                            expandedDietary = false
+                                        }
+                                    )
+                                }
+                            }
+                        }
                     }
 
                     item {
                         OutlinedTextField(
                             value = allergies,
                             onValueChange = { allergies = it },
-                            label = { Text("Food Allergies", fontSize = 12.sp) },
+                            label = { Text("Medical History", fontSize = 12.sp) },
                             leadingIcon = {
-                                Icon(
-                                    Icons.Filled.Person,
+                                Image(
+                                    painter = painterResource(id = R.drawable.medical_prescription),
                                     contentDescription = "Allergies",
                                     modifier = Modifier.size(20.dp)
                                 )
@@ -212,24 +209,52 @@ fun McrDietForm(
                         )
                     }
 
+                    // Meal Preference dropdown (Weight Goals: Weight Loss, Maintenance, Weight Gain)
                     item {
-                        OutlinedTextField(
-                            value = mealPreference,
-                            onValueChange = { mealPreference = it },
-                            label = { Text("Meal Preferences", fontSize = 12.sp) },
-                            leadingIcon = {
-                                Icon(
-                                    Icons.Filled.Home,
-                                    contentDescription = "Meals",
-                                    modifier = Modifier.size(20.dp)
-                                )
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 10.dp),
-                            singleLine = true,
-                            textStyle = MaterialTheme.typography.bodyMedium
-                        )
+                        ExposedDropdownMenuBox(
+                            expanded = expandedMeal,
+                            onExpandedChange = { expandedMeal = !expandedMeal }
+                        ) {
+                            OutlinedTextField(
+                                value = selectedMeal,
+                                onValueChange = { selectedMeal = it },
+                                label = { Text("Weight Goals", fontSize = 12.sp) },
+                                leadingIcon = {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.goal),
+                                        contentDescription = "Meals",
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                },
+                                modifier = Modifier
+                                    .menuAnchor()
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 10.dp),
+                                readOnly = true,
+                                trailingIcon = {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.baseline_arrow_drop_down_24),
+                                        contentDescription = "DropDown",
+                                        modifier = Modifier.rotate(if (expandedMeal) 180f else 0f)
+                                    )
+                                },
+                                textStyle = MaterialTheme.typography.bodyMedium
+                            )
+                            ExposedDropdownMenu(
+                                expanded = expandedMeal,
+                                onDismissRequest = { expandedMeal = false }
+                            ) {
+                                mealOptions.forEach { option ->
+                                    DropdownMenuItem(
+                                        text = { Text(option) },
+                                        onClick = {
+                                            selectedMeal = option
+                                            expandedMeal = false
+                                        }
+                                    )
+                                }
+                            }
+                        }
                     }
 
                     item {
@@ -239,20 +264,16 @@ fun McrDietForm(
                                 navController.navigate(NavDestinations.GENERATE_PLAN)
                             },
                             modifier = Modifier
-                                .width(200.dp)
-                                .padding(bottom = 16.dp)
-                                .align(Alignment.CenterHorizontally),
+                                .fillMaxWidth()
+                                .padding(10.dp),
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = colorResource(id = R.color.orange)
+                                containerColor = colorResource(R.color.orange)
                             )
                         ) {
-                            Text(
-                                text = "Let's Eat Smart",
-                                color = colorResource(id = R.color.white),
-                                fontSize = 16.sp
-                            )
+                            Text("Generate Plan", fontSize = 18.sp)
                         }
                     }
+
                 }
             }
         }
