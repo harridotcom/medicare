@@ -56,7 +56,7 @@ fun McrMindPage(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(16.dp),
+                .padding(5.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Title
@@ -115,7 +115,7 @@ fun McrMindPage(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(end = 16.dp),
+                        .padding(end = 5.dp),
                     contentAlignment = Alignment.CenterEnd
                 ) {
                     Row(
@@ -133,7 +133,7 @@ fun McrMindPage(
                         ) {
                             Text(
                                 text = "Question from AI will appear here.",
-                                fontSize = 14.sp,
+                                fontSize = 10.sp,
                                 color = Color.Black
                             )
                         }
@@ -141,7 +141,7 @@ fun McrMindPage(
                         // Orange icon
                         Box(
                             modifier = Modifier
-                                .size(60.dp)
+                                .size(50.dp)
                                 .clip(CircleShape)
                                 .background(colorResource(R.color.orange))
                         ) {

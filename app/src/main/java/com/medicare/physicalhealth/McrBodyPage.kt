@@ -74,7 +74,7 @@ fun BodyPageContent(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(5.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         // Welcome Section

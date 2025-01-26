@@ -90,7 +90,7 @@ fun McrWorkoutForm(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxWidth()
-                        .padding(16.dp),
+                        .padding(5.dp),
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
@@ -202,7 +202,7 @@ fun McrWorkoutForm(
                             label = { Text("Workout Duration", fontSize = 12.sp) },
                             leadingIcon = {
                                 Icon(
-                                    painter = painterResource(id = R.drawable.goal),
+                                    painter = painterResource(id = R.drawable.baseline_access_time_24),
                                     contentDescription = "Duration",
                                     modifier = Modifier.size(20.dp)
                                 )
@@ -291,7 +291,7 @@ fun McrWorkoutForm(
                             label = { Text("Health Conditions", fontSize = 12.sp) },
                             leadingIcon = {
                                 Icon(
-                                    Icons.Filled.Favorite,
+                                    painter = painterResource(R.drawable.healthy_heart),
                                     contentDescription = "Health",
                                     modifier = Modifier.size(20.dp)
                                 )

@@ -82,4 +82,7 @@ dependencies {
 
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3" )// Replace with the latest version
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    implementation ("com.google.accompanist:accompanist-pager:0.30.1")
+
 }

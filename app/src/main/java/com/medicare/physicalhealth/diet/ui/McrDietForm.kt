@@ -64,7 +64,7 @@ fun McrDietForm(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxWidth()
-                        .padding(16.dp),
+                        .padding(5.dp),
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
@@ -151,7 +151,7 @@ fun McrDietForm(
                                 label = { Text("Dietary Restrictions", fontSize = 12.sp) },
                                 leadingIcon = {
                                     Image(
-                                        painter = painterResource(id = R.drawable.height),
+                                        painter = painterResource(id = R.drawable.healthy_heart),
                                         contentDescription = "Diet Preference",
                                         modifier = Modifier.size(20.dp)
                                     )
