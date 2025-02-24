@@ -1,6 +1,7 @@
 package com.medicare.womenhealth
 
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -19,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,9 +28,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,6 +40,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -46,23 +51,39 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.medicare.R
 import com.medicare.animations.SlideAnimations
+import com.medicare.logging.Mcrlogger
 import com.medicare.other.ui.McrTopAppBar2
+import com.medicare.repository.CareRepository
+import com.medicare.womenhealth.network.McrCareResponse
+import kotlinx.coroutines.launch
+import java.io.File
 
-@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun McrReportUploadPage(
     modifier: Modifier = Modifier,
-    onUploadComplete: (Uri?) -> Unit = {}
+    onUploadComplete: (McrCareResponse?) -> Unit = {}
 ) {
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+    val repository = remember { CareRepository(context) }
+
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
     var selectedFileUri by remember { mutableStateOf<Uri?>(null) }
     var uploadStatus by remember { mutableStateOf<String?>(null) }
+
+    // Removed the uploadState variable as we don't want to show loading states anymore
+
+    // Temporary URI for camera captures
+    val tempImageUri = remember {
+        Uri.parse("file://${File.createTempFile("camera_capture", ".jpg", context.cacheDir).absolutePath}")
+    }
 
     // Camera launcher
     val cameraLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicture()
     ) { success ->
         if (success) {
+            selectedImageUri = tempImageUri
             selectedFileUri = null
             uploadStatus = "Photo captured successfully"
         }
@@ -78,6 +99,7 @@ fun McrReportUploadPage(
             uploadStatus = "File selected successfully"
         }
     }
+
     SlideAnimations.AnimatedScreen {
         Scaffold(
             topBar = { McrTopAppBar2() }
@@ -134,10 +156,10 @@ fun McrReportUploadPage(
                             modifier = Modifier.weight(1f)
                         ) {
                             ElevatedButton(
-                                onClick = { selectedImageUri?.let { cameraLauncher.launch(it) } },
+                                onClick = { cameraLauncher.launch(tempImageUri) },
                                 colors = ButtonDefaults.elevatedButtonColors(
                                     containerColor = colorResource(R.color.lighter_gray),
-                                    contentColor = Color.Black  // Changed to black
+                                    contentColor = Color.Black
                                 ),
                                 modifier = Modifier.size(80.dp),
                                 shape = RectangleShape,
@@ -172,7 +194,7 @@ fun McrReportUploadPage(
                                 onClick = { fileLauncher.launch("*/*") },
                                 colors = ButtonDefaults.elevatedButtonColors(
                                     containerColor = colorResource(R.color.lighter_gray),
-                                    contentColor = Color.Black  // Changed to black
+                                    contentColor = Color.Black
                                 ),
                                 modifier = Modifier.size(80.dp),
                                 shape = RectangleShape,
@@ -250,7 +272,7 @@ fun McrReportUploadPage(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // Upload status
+                    // Upload status message
                     uploadStatus?.let {
                         Text(
                             text = it,
@@ -259,16 +281,36 @@ fun McrReportUploadPage(
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(10.dp))
+                    Spacer(modifier = Modifier.height(24.dp))
 
                     // Upload Button
                     Button(
                         onClick = {
-                            // Handle final upload
-                            selectedImageUri?.let { onUploadComplete(it) }
-                            selectedFileUri?.let { onUploadComplete(it) }
+                            val fileUri = selectedImageUri ?: selectedFileUri
+                            if (fileUri != null) {
+                                // Store the URI temporarily for the API call
+                                val uriToUpload = fileUri
+
+                                // Reset UI immediately
+                                selectedImageUri = null
+                                selectedFileUri = null
+                                uploadStatus = "Report sent for processing"
+
+                                // Launch API call in background
+                                coroutineScope.launch {
+                                    try {
+                                        val response = repository.uploadMedicalReport(uriToUpload)
+                                        Mcrlogger.logMsg("Response : $response")
+                                        // Just notify completion callback without changing UI
+                                        onUploadComplete(response)
+                                    } catch (e: Exception) {
+                                        Mcrlogger.logMsg("Upload error: ${e.message}")
+                                        // Log error but don't show in UI
+                                    }
+                                }
+                            }
                         },
-                        enabled = selectedImageUri != null || selectedFileUri != null,
+                        enabled = (selectedImageUri != null || selectedFileUri != null),
                         modifier = Modifier.fillMaxWidth(),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = colorResource(R.color.orange),
